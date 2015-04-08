@@ -75,15 +75,18 @@ public class DataFetcher {
 
 		StringBuilder current = null;
 		String speaker = null;
+		String party = null;
 		for (String row : rows) {
 			if (row.trim().equals(""))
 				continue;
 			if (row.startsWith("<strong>")) {
 				if (current != null) {
-					data.add(new String[] { speaker, current.toString() });
+					data.add(new String[] { speaker, current.toString() ,party});
 				}
 				current = new StringBuilder();
-				speaker = getName(row);
+				String[] nameData = getName(row);
+				speaker = nameData[0];
+				party = nameData[1];
 
 			} else {
 				current.append(row);
@@ -91,7 +94,7 @@ public class DataFetcher {
 			}
 		}
 		if (current != null) {
-			data.add(new String[] { speaker, current.toString() });
+			data.add(new String[] { speaker, current.toString() ,party});
 		}
 		
 		return data;
@@ -113,16 +116,19 @@ public class DataFetcher {
 
 	}
 
-	private String getName(String s) {
+	private String[] getName(String s) {
 
 		Matcher m = find(s,
-				"anf.(\\d+)[\\s]*(Försvarsminister|Arbetsmarknadsminister|Kultur- och demokratiminister|Statsrådet|Finansminister|Utrikesminister|Klimat- och miljöminister|Socialförsäkringsminister|Justitie- och migrationsmin.)?[\\s]*(.*?)[\\s]*\\(.*?\\)");
+				"anf.(\\d+)[\\s]*(Utbildningsminister|Försvarsminister|Arbetsmarknadsminister|Kultur- och demokratiminister|Statsrådet|Finansminister|Utrikesminister|Klimat- och miljöminister|Socialförsäkringsminister|Justitie- och migrationsmin.)?[\\s]*(.*?)[\\s]*\\((.*?)\\)");
 		if (m.find()) {
-			return m.group(3);
+			
+			return new String[]{m.group(3),m.group(4)};
 		} else {
 			throw new RuntimeException(s);
 		}
 	}
+	
+	
 
 	private Matcher find(String data, String regex) {
 		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
