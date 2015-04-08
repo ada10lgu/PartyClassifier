@@ -59,6 +59,13 @@ public class WordCounter {
 
 		System.out.println("----------");
 
+		for (String key : partyTexts.keySet()) {
+			Text t = new Text(partyTexts.get(key));
+			t.saveToFile(key);
+		}
+		
+		
+		
 	}
 
 	private static Text getWords(String s) {
