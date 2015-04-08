@@ -1,5 +1,10 @@
 package corpus;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +12,7 @@ import java.util.List;
 public class Text {
 	private HashMap<String,Double> data;
 	int size;
+	final static String BASEPATH = "data/text/";
 	
 	public Text() {
 		data = new HashMap<>();
@@ -26,6 +32,10 @@ public class Text {
 		for(String key : data.keySet()){
 			data.put(key, data.get(key)/textList.size());
 		}
+	}
+	
+	public Text(String filename){
+		fetchFromFile(filename);
 	}
 	
 	public void add(String word) {
@@ -64,6 +74,51 @@ public class Text {
 		}
 		return Math.sqrt(tot);
 	}
+	
+	public void saveToFile(String filename){
+		try
+		{
+			FileOutputStream fileOut = new FileOutputStream(getFilePath(filename));
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(data);
+			out.close();
+			fileOut.close();
+			System.out.printf("Serialized data is saved in " + filename);
+		}catch(IOException i)
+		{
+			i.printStackTrace();
+		}
+	}
+	
+	private void fetchFromFile(String filename){
+	try
+		{
+			FileInputStream fileIn = new FileInputStream(getFilePath(filename));
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			data = (HashMap<String, Double>) in.readObject();
+			fileIn.close();
+			in.close();
+		}catch(IOException i)
+			{
+			System.out.println("IOException");
+			i.printStackTrace();
+			return;
+		}catch(ClassNotFoundException c)
+			{
+			System.out.println("ClassNotFoundException");
+			c.printStackTrace();
+			return;
+		}
+	}
+	
+	private String getFilePath(String filename){
+		StringBuilder sb = new StringBuilder();
+		sb.append(BASEPATH);
+		sb.append(filename);
+		sb.append(".ser");
+		return sb.toString();
+	}
+	
 	
 	@Override
 	public String toString() {

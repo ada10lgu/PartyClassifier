@@ -11,6 +11,18 @@ public class TextTest {
 		t1.add("Hallå");
 		t1.add("Hellu");
 		
+		t1.saveToFile("test");
+		Text t2 = new Text("test");
+		System.out.println(t2.toString());
+	}
+	
+	private void testMean(){
+		Text t1 = new Text();
+		t1.add("Hej");
+		t1.add("Hallå");
+		t1.add("Hallå");
+		t1.add("Hellu");
+		
 		Text t2 = new Text();
 		t2.add("Hej");
 		t2.add("Hallå");
@@ -29,8 +41,7 @@ public class TextTest {
 		l1.add(t3);
 		
 		Text m = new Text(l1);
-		
-		System.out.println("Distance: " + t1.distanceTo(m));
+		System.out.println(m.toString());
 	}
 
 }
