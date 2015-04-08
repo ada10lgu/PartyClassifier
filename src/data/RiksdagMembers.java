@@ -24,13 +24,15 @@ public class RiksdagMembers {
 	}
 
 	public String getParty(String name) {
-		return people.get(name);
+		String party = people.get(name);
+		if (party == null)
+			return "?";
+		return party;
 	}
 
 	@Override
 	public String toString() {
 		return people.toString();
 	}
-
 
 }
