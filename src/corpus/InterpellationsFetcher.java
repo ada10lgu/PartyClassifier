@@ -18,13 +18,13 @@ public class InterpellationsFetcher {
 		
 		
 		
-		String mainURL = "http://www.riksdagen.se/sv/Start/Sok/?typ=ip&rm=2014/15&searchtype=webbtv&facets=2&a=s&sortorder=desc&sort=debattdagtid&webbtv=1&p=";
+		String mainURL = "http://www.riksdagen.se/sv/Start/Sok/?typ=ip&rm=2013/14&searchtype=webbtv&facets=2&a=s&sortorder=desc&sort=debattdagtid&webbtv=1&p=";
 		
 		
 		
 		int start = 1;
 		int stop = 16;
-
+		stop = 3;
 		System.out.println("Fetching links");
 		for (int i = start; i <= stop; i++) {
 			String url = mainURL + i;
@@ -58,8 +58,9 @@ public class InterpellationsFetcher {
 				System.out.println("yay");
 			else {
 				System.out.println("ney (" + m.getTitle() + ")");
+				System.out.println(url);
 			}
-			m.save();
+			m.save("2");
 			i++;
 		}
 

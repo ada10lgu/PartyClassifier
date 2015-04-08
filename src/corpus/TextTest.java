@@ -10,6 +10,7 @@ public class TextTest {
 		t1.add("Hallå");
 		t1.add("Hallå");
 		t1.add("Hellu");
+		
 	
 		t1.toPercent();
 		System.out.println(t1.toString());

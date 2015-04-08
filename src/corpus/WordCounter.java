@@ -12,6 +12,8 @@ public class WordCounter {
 
 	public static void main(String[] args) throws IOException {
 
+		boolean procent = true;
+
 		ArrayList<CSV> files = new ArrayList<>();
 
 		File folder = new File("data/corpus");
@@ -29,6 +31,8 @@ public class WordCounter {
 			for (ArrayList<String> list : csv.getData()) {
 				String name = list.get(0);
 				Text t = getWords(list.get(1));
+				if (procent)
+					t.toPercent();
 
 				ArrayList<Text> textList = data.get(name);
 				if (textList == null) {
@@ -42,13 +46,12 @@ public class WordCounter {
 
 		HashMap<String, ArrayList<Text>> partyTexts = new HashMap<>(8);
 
-
 		for (String key : data.keySet()) {
 			String party = partyReference.get(key);
 			ArrayList<Text> texts = partyTexts.get(party);
 			if (texts == null) {
 				texts = new ArrayList<Text>();
-				partyTexts.put(party,texts);
+				partyTexts.put(party, texts);
 			}
 			texts.addAll(data.get(key));
 		}
@@ -61,11 +64,12 @@ public class WordCounter {
 
 		for (String key : partyTexts.keySet()) {
 			Text t = new Text(partyTexts.get(key));
-			t.saveToFile(key);
+			String postfix = "";
+			if (procent)
+				postfix = "_p";
+			t.saveToFile(key + postfix);
 		}
-		
-		
-		
+
 	}
 
 	private static Text getWords(String s) {

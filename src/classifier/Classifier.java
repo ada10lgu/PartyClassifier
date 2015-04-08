@@ -1,11 +1,9 @@
 package classifier;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import corpus.Text;
 import csv.CSV;
@@ -13,15 +11,29 @@ import csv.CSV;
 public class Classifier {
 
 	public static void main(String[] args) throws IOException {
+		classify(true);
+		classify(false);
 
-		File folder = new File("data/text/");
+	}
+
+	private static void classify(boolean procent) throws IOException {
+
+		if (procent)
+			System.out.println("Using procentage based space");
+		else
+			System.out.println("Using ammount based space");
+
 		HashMap<String, Text> map = new HashMap<>();
 
+		String[] parties = new String[] { "C", "FP", "KD", "M", "MP", "S",
+				"SD", "V" };
+
 		System.out.println("Loading data");
-		for (File file : folder.listFiles()) {
-			String name = file.getName();
-			String party = name.substring(0, name.length() - 4);
-			Text t = new Text(party);
+		for (String party : parties) {
+			String postfix = "";
+			if (procent)
+				postfix = "_p";
+			Text t = new Text(party + postfix);
 			map.put(party, t);
 		}
 		System.out.println("All data loaded");
@@ -32,30 +44,32 @@ public class Classifier {
 		int correct = 0;
 
 		for (String key : data.keySet()) {
-			System.out.print(key+":\t");
+			System.out.print(key + ":\t");
 			ArrayList<Text> texts = data.get(key);
 			int partySum = 0;
 			int partyCorrect = 0;
 			for (Text t : texts) {
+				if (procent)
+					t.toPercent();
 				if (classify(t, map).equals(key)) {
 					correct++;
 					partyCorrect++;
 				}
 				sum++;
 				partySum++;
+				if (partySum == 25)
+					break;
 			}
 			System.out.print(partyCorrect + "/" + partySum);
 			double proc = (100.0 * partyCorrect) / partySum;
-			if (!key.equals("S"))
-				System.out.print("\t");
-			System.out.println("\t"+proc + "%");
+			System.out.println("\t" + proc + "%");
 
 		}
 		System.out.println();
 		System.out.println("Total:");
-		System.out.print("\t"+correct + "/" + sum);
+		System.out.print("\t" + correct + "/" + sum);
 		double proc = (100.0 * correct) / sum;
-		System.out.println("\t"+proc + "%");
+		System.out.println("\t" + proc + "%");
 
 	}
 
@@ -73,22 +87,6 @@ public class Classifier {
 		}
 
 		return party;
-	}
-
-	private static Text loadText() throws FileNotFoundException {
-		Scanner s = new Scanner(new File("data/test/V"));
-		StringBuilder sb = new StringBuilder();
-		while (s.hasNext()) {
-			sb.append(s.nextLine()).append(" ");
-		}
-
-		Text t = new Text();
-		String[] list = sb.toString().split("([!\\.,])?[\\s]+");
-		for (String word : list) {
-			t.add(word.toLowerCase());
-		}
-
-		return t;
 	}
 
 	private static HashMap<String, ArrayList<Text>> getAllTexts()

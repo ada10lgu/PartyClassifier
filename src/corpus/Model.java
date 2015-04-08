@@ -40,9 +40,13 @@ public class Model extends Observable {
 	}
 
 	public void save() {
+		save("");
+	}
+	
+	public void save(String extra) {
 		if (df == null)
 			return;
-		File f = new File("data/corpus/" + getTitle().replace(' ', '_')
+		File f = new File("data/corpus"+extra+"/" + getTitle().replace(' ', '_')
 				+ ".csv");
 
 		try {
@@ -62,7 +66,6 @@ public class Model extends Observable {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return;
 		}
-
 	}
 
 }
