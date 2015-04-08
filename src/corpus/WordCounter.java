@@ -40,36 +40,32 @@ public class WordCounter {
 			}
 		}
 
+		HashMap<String, ArrayList<Text>> partyTexts = new HashMap<>(8);
+
+
 		for (String key : data.keySet()) {
-			System.out.println(key + " " + data.get(key).size());
+			String party = partyReference.get(key);
+			ArrayList<Text> texts = partyTexts.get(party);
+			if (texts == null) {
+				texts = new ArrayList<Text>();
+				partyTexts.put(party,texts);
+			}
+			texts.addAll(data.get(key));
+		}
+
+		for (String key : partyTexts.keySet()) {
+			System.out.println(key + ":\t" + partyTexts.get(key).size());
 		}
 
 		System.out.println("----------");
 
-		HashMap<String, Integer> partyRelevance = new HashMap<>();
-
-		partyRelevance.put("C", 0);
-		partyRelevance.put("FP", 0);
-		partyRelevance.put("KD", 0);
-		partyRelevance.put("MP", 0);
-		partyRelevance.put("M", 0);
-		partyRelevance.put("S", 0);
-		partyRelevance.put("SD", 0);
-		partyRelevance.put("V", 0);
-
-		for (String key : data.keySet()) {
-			String party = partyReference.get(key);
-			Integer i = partyRelevance.get(party);
-			if (i == null) {
-				i = 0;
-				System.out.println(key);
-			}
-			i++;
-			partyRelevance.put(party, i);
+		for (String key : partyTexts.keySet()) {
+			Text t = new Text(partyTexts.get(key));
+			t.saveToFile(key);
 		}
-
-		System.out.println(partyRelevance);
-
+		
+		
+		
 	}
 
 	private static Text getWords(String s) {
