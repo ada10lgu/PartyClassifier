@@ -15,6 +15,10 @@ public class PartyText {
 		return t;
 	}
 	
+	public String getParty() {
+		return party;
+	}
+	
 	public boolean isParty(String party) {
 		return this.party.equals(party);
 	}
