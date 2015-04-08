@@ -40,35 +40,24 @@ public class WordCounter {
 			}
 		}
 
-		for (String key : data.keySet()) {
-			System.out.println(key + " " + data.get(key).size());
-		}
+		HashMap<String, ArrayList<Text>> partyTexts = new HashMap<>(8);
 
-		System.out.println("----------");
-
-		HashMap<String, Integer> partyRelevance = new HashMap<>();
-
-		partyRelevance.put("C", 0);
-		partyRelevance.put("FP", 0);
-		partyRelevance.put("KD", 0);
-		partyRelevance.put("MP", 0);
-		partyRelevance.put("M", 0);
-		partyRelevance.put("S", 0);
-		partyRelevance.put("SD", 0);
-		partyRelevance.put("V", 0);
 
 		for (String key : data.keySet()) {
 			String party = partyReference.get(key);
-			Integer i = partyRelevance.get(party);
-			if (i == null) {
-				i = 0;
-				System.out.println(key);
+			ArrayList<Text> texts = partyTexts.get(party);
+			if (texts == null) {
+				texts = new ArrayList<Text>();
+				partyTexts.put(party,texts);
 			}
-			i++;
-			partyRelevance.put(party, i);
+			texts.addAll(data.get(key));
 		}
 
-		System.out.println(partyRelevance);
+		for (String key : partyTexts.keySet()) {
+			System.out.println(key + ":\t" + partyTexts.get(key).size());
+		}
+
+		System.out.println("----------");
 
 	}
 
