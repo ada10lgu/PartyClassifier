@@ -14,13 +14,17 @@ public class PartyList {
 	
 	public void add(Party p) {
 		map.put(p.party, p);
-		if(best == null || best.wheigh > p.wheigh){
+		if(best == null || best.value > p.value){
 			best = p;
 		}
 	}
 	
 	public void multiply(double d) {
-		
+		for(String key : map.keySet()){
+			Party p = map.get(key);
+			p.value *= d;
+			map.put(p.party, p);
+		}
 	}
 	
 	public PartyList addLists(PartyList list2) {
@@ -28,7 +32,7 @@ public class PartyList {
 	}
 	
 	public String getBestParty() {
-		return null;
+		return best.party;
 	}
 	
 	@Override
