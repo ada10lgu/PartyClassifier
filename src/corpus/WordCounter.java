@@ -39,6 +39,10 @@ public class WordCounter {
 		for (String key : data.keySet()) {
 			System.out.println(key + " " + data.get(key).size());
 		}
+		
+		
+		 
+		
 	}
 
 	private static Text getWords(String s) {
@@ -47,7 +51,6 @@ public class WordCounter {
 		for (String word : list) {
 			text.add(word.toLowerCase());
 		}
-
 		return text;
 	}
 

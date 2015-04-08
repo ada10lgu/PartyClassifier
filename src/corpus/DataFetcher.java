@@ -116,7 +116,7 @@ public class DataFetcher {
 	private String getName(String s) {
 
 		Matcher m = find(s,
-				"anf.(\\d+)[\\s]*(Statsrådet)?[\\s]*(.*?)[\\s]*\\(.*?\\)");
+				"anf.(\\d+)[\\s]*(Försvarsminister|Arbetsmarknadsminister|Kultur- och demokratiminister|Statsrådet|Finansminister|Utrikesminister|Klimat- och miljöminister|Socialförsäkringsminister|Justitie- och migrationsmin.)?[\\s]*(.*?)[\\s]*\\(.*?\\)");
 		if (m.find()) {
 			return m.group(3);
 		} else {
