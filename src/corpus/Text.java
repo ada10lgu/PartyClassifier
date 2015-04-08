@@ -12,7 +12,7 @@ import java.util.List;
 public class Text {
 	private HashMap<String,Double> data;
 	int size;
-	final static String BASEPATH = "data/text/";
+	private final static String BASEPATH = "data/text/";
 	
 	public Text() {
 		data = new HashMap<>();
@@ -83,7 +83,6 @@ public class Text {
 			out.writeObject(data);
 			out.close();
 			fileOut.close();
-			System.out.printf("Serialized data is saved in " + filename);
 		}catch(IOException i)
 		{
 			i.printStackTrace();
@@ -117,6 +116,31 @@ public class Text {
 		sb.append(filename);
 		sb.append(".ser");
 		return sb.toString();
+	}
+	
+	private Double getDataSize(){
+		Double size = 0.0;
+		for(String key : data.keySet()){
+			Double val = data.get(key);
+			if(val == null){
+				val = 0.0;
+			}
+			size += val;
+		}
+		return size;
+	}
+	
+	public void toPercent(){
+		Double size = getDataSize();
+		for(String key : data.keySet()){
+			Double v1 = data.get(key);
+			if(v1 != null && v1 != 0.0){
+				data.put(key, v1 / size);
+			}
+			else{
+				data.put(key, 0.0);
+			}
+		}
 	}
 	
 	

@@ -10,7 +10,17 @@ public class TextTest {
 		t1.add("Hallå");
 		t1.add("Hallå");
 		t1.add("Hellu");
-		
+	
+		t1.toPercent();
+		System.out.println(t1.toString());
+	}
+	
+	private void testSaveToFile(){
+		Text t1 = new Text();
+		t1.add("Hej");
+		t1.add("Hallå");
+		t1.add("Hallå");
+		t1.add("Hellu");
 		t1.saveToFile("test");
 		Text t2 = new Text("test");
 		System.out.println(t2.toString());
