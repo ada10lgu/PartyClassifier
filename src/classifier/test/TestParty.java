@@ -1,10 +1,14 @@
 package classifier.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import classifier.Party;
+import classifier.PartyList;
+import classifier.PartyTester;
+import corpus.Text;
 
 public class TestParty {
 
@@ -23,4 +27,16 @@ public class TestParty {
 		assertTrue(p3.compareTo(p1) == 0);
 	}
 
+	
+	@Test
+	public void test2() {
+		Text t = new Text("SD");
+		
+		
+		PartyTester pt = new PartyTester("");
+		PartyList pl = pt.evaluate(t);
+		System.out.println(pl);
+	}
 }
+
+
