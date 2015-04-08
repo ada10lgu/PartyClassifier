@@ -2,7 +2,9 @@ package classifier;
 
 public class PartyList {
 
-	
+	public void add(Party p) {
+		
+	}
 	
 	public void multiply(double d) {
 		
