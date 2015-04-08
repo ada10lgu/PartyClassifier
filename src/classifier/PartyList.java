@@ -10,6 +10,10 @@ public class PartyList {
 		
 	}
 	
+	public PartyList addLists(PartyList list2) {
+		return null;
+	}
+	
 	public String getBestParty() {
 		return null;
 	}
