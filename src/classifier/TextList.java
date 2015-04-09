@@ -15,7 +15,7 @@ public class TextList implements Iterable<PartyText> {
 
 	private ArrayList<PartyText> list;
 
-	public TextList(File folder) throws IOException {
+	public TextList(File folder, int partyLimit) throws IOException {
 
 		list = new ArrayList<>();
 
@@ -43,7 +43,11 @@ public class TextList implements Iterable<PartyText> {
 		}
 
 		for (String key : data.keySet()) {
-			for (int i = 0; i < 25; i++) {
+			int limit = partyLimit;
+			if (limit < 0)
+				limit = data.get(key).size();
+
+			for (int i = 0; i < limit; i++) {
 				Text t = data.get(key).get(i);
 				list.add(new PartyText(key, t));
 			}
@@ -63,6 +67,10 @@ public class TextList implements Iterable<PartyText> {
 	@Override
 	public Iterator<PartyText> iterator() {
 		return list.iterator();
+	}
+
+	public double size() {
+		return list.size();
 	}
 
 }

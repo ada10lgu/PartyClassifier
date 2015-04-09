@@ -45,7 +45,7 @@ public class PartyList {
 		return best.party;
 	}
 	
-	private ArrayList<Party> getSortedArray(){
+	public ArrayList<Party> getSortedArray(){
 		ArrayList<Party> sortedList = new ArrayList<Party>();
 		for(String key : list.keySet()){
 			sortedList.add(list.get(key));

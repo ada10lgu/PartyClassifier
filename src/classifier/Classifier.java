@@ -50,7 +50,7 @@ public class Classifier {
 			int partyCorrect = 0;
 			for (Text t : texts) {
 				if (procent)
-					t.toPercent();
+					t = t.toPercent();
 				if (classify(t, map).equals(key)) {
 					correct++;
 					partyCorrect++;
