@@ -154,6 +154,12 @@ public class Text {
 		}
 		return t;
 	}
+	
+	public Text toTfidf(){
+		Text t = toPercent();
+		
+		return t;
+	}
 
 	public Set<String> getWords() {
 		return data.keySet();
