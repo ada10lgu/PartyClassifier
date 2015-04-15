@@ -5,10 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Text {
 	private HashMap<String, Double> data;
@@ -155,12 +155,13 @@ public class Text {
 		return t;
 	}
 
-	public ArrayList<String> getWords() {
-		return null;
+	public Set<String> getWords() {
+		return data.keySet();
 	}
 	
 	public boolean contains(String word) {
-		return false;
+		Double d = data.get(word);
+		return d != null;
 	}
 	
 	@Override
