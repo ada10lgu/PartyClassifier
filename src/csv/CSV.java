@@ -50,7 +50,7 @@ public class CSV {
 			case STRING_CONTAINER:
 				if (c != STRING_CONTAINER) {
 					System.out.println(data);
-					throw new RuntimeException("Illegal character (" + c + ")");
+					throw new RuntimeException("Illegal character (" + c + ") ("+row+")");
 				}
 				s = "";
 				expect = (char) -1;

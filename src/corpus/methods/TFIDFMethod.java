@@ -4,25 +4,30 @@ import java.util.ArrayList;
 
 import corpus.Text;
 
-public class AmmountMethod implements Method {
+public class TFIDFMethod implements Method {
 
 	@Override
 	public Text calculate(ArrayList<Text> data) {
-		return new Text(data);
+		return new Text();
 	}
-
+	
+	
 	@Override
 	public String toString() {
-		return "Ammount base";
+		return "TFIDF";
 	}
+
 
 	@Override
 	public Text modify(Text t) {
-		return t;
+		return new Text();
 	}
+
 
 	@Override
 	public String getPostfix() {
-		return "";
+		return "_t";
 	}
+	
+	
 }

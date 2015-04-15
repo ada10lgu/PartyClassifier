@@ -21,4 +21,16 @@ public class FrequencyMethod implements Method {
 	public String toString() {
 		return "Frequenzy";
 	}
+
+
+	@Override
+	public Text modify(Text t) {
+		return t.toPercent();
+	}
+
+
+	@Override
+	public String getPostfix() {
+		return "_p";
+	}
 }
