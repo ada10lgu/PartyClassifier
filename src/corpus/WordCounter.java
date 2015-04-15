@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import corpus.methods.AmmountMethod;
+import corpus.methods.FrequencyMethod;
 import corpus.methods.Method;
 import csv.CSV;
 
@@ -13,23 +15,30 @@ public class WordCounter {
 
 	public static void main(String[] args) throws IOException {
 
+		
+		
 		HashMap<String, ArrayList<Text>> text = getAllPartyTexts();
 
+		HashSet<String> words = getAllWords(text);
+		
+		int documents = 0;
 		for (String key : text.keySet()) {
+			documents += text.get(key).size();
+
 			System.out.println(key + ":\t" + text.get(key).size());
 		}
+		System.out.println(documents);
 
 		HashMap<String, Method> methods = new HashMap<>();
 		methods.put("", new AmmountMethod());
-		methods.put("_p", new AmmountMethod());
-		
+		methods.put("_p", new FrequencyMethod());
 
 		for (String key : text.keySet()) {
 			ArrayList<Text> data = text.get(key);
 			System.out.println(key);
 			for (String methodKey : methods.keySet()) {
 				Method m = methods.get(methodKey);
-				System.out.println("\t"+m);
+				System.out.println("\t" + m);
 
 				Text t = m.calculate(data);
 
@@ -37,6 +46,22 @@ public class WordCounter {
 			}
 		}
 
+	}
+
+	private static HashSet<String> getAllWords(HashMap<String, ArrayList<Text>> text) {
+		HashSet<String> data = new HashSet<>();
+		
+		Text all = new Text();
+		
+		for (String key : text.keySet()) {
+			for (Text t : text.get(key)) {
+				all.addText(t);
+			}
+		}
+		
+		
+		
+		return data;
 	}
 
 	private static HashMap<String, ArrayList<Text>> getAllPartyTexts()
@@ -71,65 +96,4 @@ public class WordCounter {
 		}
 		return text;
 	}
-
-	private static void old() throws IOException {
-		boolean procent = true;
-
-		ArrayList<CSV> files = new ArrayList<>();
-
-		File folder = new File("data/corpus");
-
-		for (File file : folder.listFiles()) {
-			files.add(new CSV(file));
-		}
-
-		HashMap<String, ArrayList<Text>> data = new HashMap<>();
-
-		HashMap<String, String> partyReference = new HashMap<>();
-
-		for (CSV csv : files) {
-
-			for (ArrayList<String> list : csv.getData()) {
-				String name = list.get(0);
-				Text t = getWords(list.get(1));
-				if (procent)
-					t = t.toPercent();
-
-				ArrayList<Text> textList = data.get(name);
-				if (textList == null) {
-					textList = new ArrayList<>();
-					data.put(name, textList);
-				}
-				textList.add(t);
-				partyReference.put(name, list.get(2));
-			}
-		}
-
-		HashMap<String, ArrayList<Text>> partyTexts = new HashMap<>(8);
-
-		for (String key : data.keySet()) {
-			String party = partyReference.get(key);
-			ArrayList<Text> texts = partyTexts.get(party);
-			if (texts == null) {
-				texts = new ArrayList<Text>();
-				partyTexts.put(party, texts);
-			}
-			texts.addAll(data.get(key));
-		}
-
-		for (String key : partyTexts.keySet()) {
-			System.out.println(key + ":\t" + partyTexts.get(key).size());
-		}
-
-		System.out.println("----------");
-
-		for (String key : partyTexts.keySet()) {
-			Text t = new Text(partyTexts.get(key));
-			String postfix = "";
-			if (procent)
-				postfix = "_p";
-			t.saveToFile(key + postfix);
-		}
-	}
-
 }
