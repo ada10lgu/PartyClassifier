@@ -12,7 +12,7 @@ public class TFIDFdata {
 		return 0;
 	}
 	
-	public int wordApparance() {
+	public int wordApparance(String Word) {
 		return 0;
 	}
 	
