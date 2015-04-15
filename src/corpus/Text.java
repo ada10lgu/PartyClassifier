@@ -154,6 +154,14 @@ public class Text {
 		return t;
 	}
 
+	public ArrayList<String> getWords() {
+		return null;
+	}
+	
+	public boolean contains(String word) {
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
