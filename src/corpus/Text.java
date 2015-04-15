@@ -1,5 +1,6 @@
 package corpus;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -156,8 +157,25 @@ public class Text {
 	}
 	
 	public Text toTfidf(){
-		Text t = toPercent();
-		
+		Text t = new Text();
+		File file = new File("data/tfidf/tfidf.csv");
+		try {
+			TFIDFdata tfidf = new TFIDFdata(file);
+			Double size = getDataSize();
+			for (String key : data.keySet()) {
+				Double tf = data.get(key);
+				if (tf != null && size != 0) {
+					tf = tf / size;
+				} else {
+					tf = 0.0;
+				}
+				Double idf = (double) tfidf.numberOfPages();
+				idf /= (1 + tfidf.wordApparance(key));
+				t.data.put(key, tf*idf);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return t;
 	}
 
