@@ -5,12 +5,74 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import corpus.methods.AmmountMethod;
+import corpus.methods.Method;
 import csv.CSV;
 
 public class WordCounter {
 
 	public static void main(String[] args) throws IOException {
 
+		HashMap<String, ArrayList<Text>> text = getAllPartyTexts();
+
+		for (String key : text.keySet()) {
+			System.out.println(key + ":\t" + text.get(key).size());
+		}
+
+		HashMap<String, Method> methods = new HashMap<>();
+		methods.put("", new AmmountMethod());
+		methods.put("_p", new AmmountMethod());
+		
+
+		for (String key : text.keySet()) {
+			ArrayList<Text> data = text.get(key);
+			System.out.println(key);
+			for (String methodKey : methods.keySet()) {
+				Method m = methods.get(methodKey);
+				System.out.println("\t"+m);
+
+				Text t = m.calculate(data);
+
+				t.saveToFile(key + methodKey);
+			}
+		}
+
+	}
+
+	private static HashMap<String, ArrayList<Text>> getAllPartyTexts()
+			throws IOException {
+		HashMap<String, ArrayList<Text>> data = new HashMap<>();
+
+		File folder = new File("data/corpus");
+
+		for (File file : folder.listFiles()) {
+			CSV csv = new CSV(file);
+
+			for (ArrayList<String> list : csv.getData()) {
+				String party = list.get(2);
+				Text t = getWords(list.get(1));
+
+				ArrayList<Text> text = data.get(party);
+				if (text == null) {
+					text = new ArrayList<>();
+					data.put(party, text);
+				}
+				text.add(t);
+			}
+		}
+		return data;
+	}
+
+	private static Text getWords(String s) {
+		Text text = new Text();
+		String[] list = s.split("([!\\.,])?[\\s]+");
+		for (String word : list) {
+			text.add(word.toLowerCase());
+		}
+		return text;
+	}
+
+	private static void old() throws IOException {
 		boolean procent = true;
 
 		ArrayList<CSV> files = new ArrayList<>();
@@ -29,10 +91,9 @@ public class WordCounter {
 
 			for (ArrayList<String> list : csv.getData()) {
 				String name = list.get(0);
-				System.out.println(list.get(2));
 				Text t = getWords(list.get(1));
 				if (procent)
-					t.toPercent();
+					t = t.toPercent();
 
 				ArrayList<Text> textList = data.get(name);
 				if (textList == null) {
@@ -69,18 +130,6 @@ public class WordCounter {
 				postfix = "_p";
 			t.saveToFile(key + postfix);
 		}
-
 	}
-
-	private static Text getWords(String s) {
-		Text text = new Text();
-		String[] list = s.split("([!\\.,])?[\\s]+");
-		for (String word : list) {
-			text.add(word.toLowerCase());
-		}
-		return text;
-	}
-	
-	
 
 }
