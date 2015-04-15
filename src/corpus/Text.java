@@ -48,6 +48,18 @@ public class Text {
 		size++;
 
 	}
+	
+	public void addText(Text otherText){
+		for (String key : otherText.data.keySet()){
+			Double otherCount = otherText.data.get(key);
+			Double count = data.get(key);
+			if(count == null){
+				data.put(key, otherCount);
+			}else{
+				data.put(key, count + otherCount);
+			}
+		}
+	}
 
 	public double distanceTo(Text otherText) {
 		HashSet<String> allWords = new HashSet<String>();
