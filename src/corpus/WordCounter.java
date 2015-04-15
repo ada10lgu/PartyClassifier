@@ -9,15 +9,15 @@ import java.util.Set;
 import corpus.methods.AmmountMethod;
 import corpus.methods.FrequencyMethod;
 import corpus.methods.Method;
+import corpus.methods.TFIDFMethod;
 import csv.CSV;
 
 public class WordCounter {
 
 	public static void main(String[] args) throws IOException {
 
-		
 		System.out.println("Reading data");
-		
+
 		HashMap<String, ArrayList<Text>> text = getAllPartyTexts();
 
 		int documents = 0;
@@ -27,27 +27,27 @@ public class WordCounter {
 			System.out.println(key + ":\t" + text.get(key).size());
 		}
 
-		
 		System.out.println("Creating tfidf data");
 		Set<String> words = getAllWords(text);
 		createTFIDFData(words, documents, text);
 
-		
 		System.out.println("Calculating methods");
-		HashMap<String, Method> methods = new HashMap<>();
-		methods.put("", new AmmountMethod());
-		methods.put("_p", new FrequencyMethod());
+
+		ArrayList<Method> methods = new ArrayList<>();
+
+		methods.add(new AmmountMethod());
+		methods.add(new FrequencyMethod());
+		methods.add(new TFIDFMethod());
 
 		for (String key : text.keySet()) {
 			ArrayList<Text> data = text.get(key);
 			System.out.println(key);
-			for (String methodKey : methods.keySet()) {
-				Method m = methods.get(methodKey);
+			for (Method m : methods) {
 				System.out.println("\t" + m);
 
 				Text t = m.calculate(data);
 
-				t.saveToFile(key + methodKey);
+				t.saveToFile(key + m.getPostfix());
 			}
 		}
 
@@ -61,6 +61,8 @@ public class WordCounter {
 		tfidf.clear();
 		ArrayList<String> firstLine = new ArrayList<>();
 		firstLine.add("" + documents);
+		firstLine.add("CSV ftw");
+
 		tfidf.add(firstLine);
 
 		for (String s : words) {
@@ -120,7 +122,9 @@ public class WordCounter {
 		Text text = new Text();
 		String[] list = s.split("([!\\.,])?[\\s]+");
 		for (String word : list) {
-			text.add(word.toLowerCase());
+			word = word.replace("\"", "");
+
+			text.add(word.toLowerCase().trim());
 		}
 		return text;
 	}
