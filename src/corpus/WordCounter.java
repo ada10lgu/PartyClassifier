@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import csv.CSV;
-import data.RiksdagMembers;
 
 public class WordCounter {
 
@@ -30,6 +29,7 @@ public class WordCounter {
 
 			for (ArrayList<String> list : csv.getData()) {
 				String name = list.get(0);
+				System.out.println(list.get(2));
 				Text t = getWords(list.get(1));
 				if (procent)
 					t.toPercent();
@@ -80,5 +80,7 @@ public class WordCounter {
 		}
 		return text;
 	}
+	
+	
 
 }
