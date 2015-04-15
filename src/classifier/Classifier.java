@@ -6,22 +6,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import corpus.Text;
+import corpus.methods.AmmountMethod;
+import corpus.methods.FrequencyMethod;
+import corpus.methods.Method;
+import corpus.methods.TFIDFMethod;
 import csv.CSV;
 
 public class Classifier {
 
 	public static void main(String[] args) throws IOException {
-		classify(true);
-		classify(false);
+
+		ArrayList<Method> methods = new ArrayList<>();
+		methods.add(new FrequencyMethod());
+		methods.add(new AmmountMethod());
+		methods.add(new TFIDFMethod());
+
+		for (Method m : methods)
+			classify(m);
 
 	}
 
-	private static void classify(boolean procent) throws IOException {
+	private static void classify(Method m) throws IOException {
 
-		if (procent)
-			System.out.println("Using procentage based space");
-		else
-			System.out.println("Using ammount based space");
+		String name = m.toString();
+
+		System.out.println("Using " + name + " based space");
 
 		HashMap<String, Text> map = new HashMap<>();
 
@@ -30,9 +39,7 @@ public class Classifier {
 
 		System.out.println("Loading data");
 		for (String party : parties) {
-			String postfix = "";
-			if (procent)
-				postfix = "_p";
+			String postfix = m.getPostfix();
 			Text t = new Text(party + postfix);
 			map.put(party, t);
 		}
@@ -49,8 +56,8 @@ public class Classifier {
 			int partySum = 0;
 			int partyCorrect = 0;
 			for (Text t : texts) {
-				if (procent)
-					t = t.toPercent();
+				t = m.modify(t);
+
 				if (classify(t, map).equals(key)) {
 					correct++;
 					partyCorrect++;
