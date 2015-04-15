@@ -32,7 +32,7 @@ public class WordCounter {
 				String name = list.get(0);
 				Text t = getWords(list.get(1));
 				if (procent)
-					t.toPercent();
+					t= t.toPercent();
 
 				ArrayList<Text> textList = data.get(name);
 				if (textList == null) {
