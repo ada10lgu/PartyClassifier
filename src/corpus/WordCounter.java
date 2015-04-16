@@ -19,7 +19,7 @@ public class WordCounter {
 		System.out.println("Reading data");
 
 		HashMap<String, ArrayList<Text>> text = getAllPartyTexts();
-		//createBM25data(text);
+		createBM25data(text);
 		int documents = 0;
 		for (String key : text.keySet()) {
 			documents += text.get(key).size();
@@ -96,12 +96,12 @@ public class WordCounter {
 				documentCount++;
 			}
 			ArrayList<String> firstLine = new ArrayList<>();
-			firstLine.add("documentCount");
-			firstLine.add(documentCount.toString());
+			firstLine.add("party");
+			firstLine.add(partyKey);
 			bm25.add(firstLine);
 			ArrayList<String> secondLine = new ArrayList<>();
-			secondLine.add("totalSize");
-			secondLine.add(partyText.getDataSize().toString());
+			secondLine.add("documentCount");
+			secondLine.add(documentCount.toString());
 			bm25.add(secondLine);
 			for(String key: partyText.getData().keySet()){
 				ArrayList<String> row = new ArrayList<>();

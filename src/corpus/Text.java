@@ -181,6 +181,41 @@ public class Text {
 		}
 		return t;
 	}
+	
+	public HashMap<String, Double> bm25Score(){
+		Double k1 = 1.2;
+		Double b = 0.75;
+		HashMap<String, Double> scores = new HashMap<String, Double>();
+		File folder = new File("data/bm25");
+		File idfFile = new File("data/tfidf/tfidf.csv");
+		TFIDFdata tfidf;
+		try {
+			tfidf = new TFIDFdata(idfFile);
+			for (File file : folder.listFiles()) {
+				Double score = 0.0;
+				BM25data bm25 = new BM25data(file);
+				Text procentRep = bm25.getData().toPercent();
+				Integer D = bm25.getDocumentCount();
+				Double avgdl = bm25.getAvgdl();
+				for(String key: data.keySet()){
+					Double idf = (double) tfidf.numberOfPages();
+					idf /= (1 + tfidf.wordApparance(key));
+					Double frq = procentRep.data.get(key);
+					if (frq == null){
+						frq = 0.0;
+					}
+					score += idf + (frq * (k1 + 1))/(frq+ (k1*(1 - b + b*D/avgdl)));
+				}
+				System.out.println(bm25.getParty() + " " + score);
+				scores.put(bm25.getParty(), score);
+			}	
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return scores;
+	}
+	
 
 	public Set<String> getWords() {
 		return data.keySet();

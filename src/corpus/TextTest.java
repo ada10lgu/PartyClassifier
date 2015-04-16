@@ -7,23 +7,23 @@ public class TextTest {
 
 	public static void main(String[] args) {
 		Text t1 = new Text();
-		t1.add("Hej");
-		t1.add("Hallå");
-		t1.add("Hallå");
-		t1.add("Hellu");
-		t1.add("Hej");
-		t1.add("Hallå");
-		t1.add("Hallå");
-		t1.add("Hellu");
-		t1.add("Hej");
-		t1.add("tja");
-		t1.add("tja");
-		t1.add("tja");
-		t1.saveToFile("CSVTest");
-		Text t2 = new Text("CSVTest");
-		System.out.println(t1.toString());
-		System.out.println(t2.toString());
-
+		t1.add("talman");
+		t1.add("talman");
+		t1.add("talman");
+		t1.add("talman");
+		t1.add("talman");
+		t1.add("talman");
+		t1.add("talman");
+		t1.add("miljö");
+		t1.add("miljö");
+		t1.add("miljö");
+		t1.add("miljö");
+		t1.add("miljö");
+		t1.add("miljö");
+		t1.add("miljö");
+		
+		
+		System.out.println(t1.bm25Score());
 	}
 	
 	private void testSaveToFile(){
@@ -32,8 +32,9 @@ public class TextTest {
 		t1.add("Hallå");
 		t1.add("Hallå");
 		t1.add("Hellu");
-		t1.saveToFile("test");
-		Text t2 = new Text("test");
+		t1.saveToFile("CSVTest");
+		Text t2 = new Text("CSVTest");
+		System.out.println(t1.toString());
 		System.out.println(t2.toString());
 	}
 	
