@@ -1,5 +1,6 @@
 package corpus;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TextTest {
@@ -10,10 +11,19 @@ public class TextTest {
 		t1.add("Hallå");
 		t1.add("Hallå");
 		t1.add("Hellu");
-		
-	
-		t1.toPercent();
+		t1.add("Hej");
+		t1.add("Hallå");
+		t1.add("Hallå");
+		t1.add("Hellu");
+		t1.add("Hej");
+		t1.add("tja");
+		t1.add("tja");
+		t1.add("tja");
+		t1.saveToFile("CSVTest");
+		Text t2 = new Text("CSVTest");
 		System.out.println(t1.toString());
+		System.out.println(t2.toString());
+
 	}
 	
 	private void testSaveToFile(){

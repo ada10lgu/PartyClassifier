@@ -6,10 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import csv.CSV;
 
 public class Text {
 	private HashMap<String, Double> data;
@@ -37,8 +40,11 @@ public class Text {
 	}
 
 	public Text(String filename) {
+		data = new HashMap<>();
+		size = 0;
 		fetchFromFile(filename);
 	}
+	
 
 	public void add(String word) {
 		Double i = data.get(word);
@@ -88,35 +94,41 @@ public class Text {
 		}
 		return Math.sqrt(tot);
 	}
-
-	public void saveToFile(String filename) {
+	
+	public void saveToFile(String filename){
+		File file = new File(filename);
+		CSV csv;
 		try {
-			FileOutputStream fileOut = new FileOutputStream(
-					getFilePath(filename));
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(data);
-			out.close();
-			fileOut.close();
-		} catch (IOException i) {
-			i.printStackTrace();
+			csv = new CSV(file);
+			ArrayList<ArrayList<String>> matrix = csv.getData();
+			matrix.clear();
+			for(String key : data.keySet()){
+				ArrayList<String> word = new ArrayList<String>();
+				word.add(key);
+				word.add(data.get(key).toString());
+				matrix.add(word);
+			}
+			csv.save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	private void fetchFromFile(String filename) {
+	private void fetchFromFile(String filename){
+		File file = new File(filename);
 		try {
-			FileInputStream fileIn = new FileInputStream(getFilePath(filename));
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			data = (HashMap<String, Double>) in.readObject();
-			fileIn.close();
-			in.close();
-		} catch (IOException i) {
-			System.out.println("IOException");
-			i.printStackTrace();
-			return;
-		} catch (ClassNotFoundException c) {
-			System.out.println("ClassNotFoundException");
-			c.printStackTrace();
-			return;
+			CSV csv = new CSV(file);
+			ArrayList<ArrayList<String>> matrix = csv.getData();
+			for(int i = 0; i < matrix.size(); i++){
+				ArrayList<String> list = matrix.get(i);
+				Double count = Double.parseDouble(list.get(1));
+				data.put(list.get(0), count);
+				size += count;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
