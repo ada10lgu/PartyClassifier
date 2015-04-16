@@ -110,7 +110,6 @@ public class Text {
 			}
 			csv.save();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

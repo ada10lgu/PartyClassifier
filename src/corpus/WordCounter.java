@@ -46,9 +46,11 @@ public class WordCounter {
 
 				Text t = m.calculate(data);
 
-				t.saveToFile(key + m.getPostfix());
+				t.saveToFile("data/text/"+key + m.getPostfix() + ".csv");
 			}
 		}
+		
+		System.out.println("Done!");
 
 	}
 
