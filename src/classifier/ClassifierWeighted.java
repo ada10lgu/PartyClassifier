@@ -13,6 +13,7 @@ public class ClassifierWeighted {
 
 	private static PartyTester pt1;
 	private static PartyTester pt2;
+	private static PartyTester pt3;
 	private static TextList tl;
 
 	public static void main(String[] args) throws IOException {
@@ -20,17 +21,19 @@ public class ClassifierWeighted {
 		println("Loading party lists");
 		pt1 = new PartyTester("");
 		pt2 = new PartyTester("_p");
+		pt3 = new PartyTester("_t");
+		
 		println("Loading texts");
 		tl = new TextList(new File("data/corpus"), 25);
 		System.out.println("\t   Loaded " + tl.size() + " texts");
 		println("Done!");
 
-		int POPULATION_SIZE = 10;
-		int GENERATIONS = 3;
-		int BREEDERS = 4;
+		int POPULATION_SIZE = 40;
+		int GENERATIONS = 10;
+		int BREEDERS = 15;
 		double MUTATION_RISK = 0.04;
-		int MUTATION_FREE = 1;
-		int TOP_PLACING = 7;
+		int MUTATION_FREE = 10;
+		int TOP_PLACING = 1;
 
 		println("Genetic algoritm started");
 		Population pop = new Population(POPULATION_SIZE);
@@ -40,7 +43,7 @@ public class ClassifierWeighted {
 
 			System.out.println("\t   Evaluating");
 			for (Point p : pop.getPoints()) {
-				double d = test(p.getA(), p.getB(), TOP_PLACING);
+				double d = test(p.getA(), p.getB(),p.getC(), TOP_PLACING);
 				p.setAns(d);
 			}
 			System.out.println("\t   Sorting");
@@ -65,8 +68,8 @@ public class ClassifierWeighted {
 
 	}
 
-	private static double test(double x, double y, int top) {
-		println("Testing (" + x + "," + y + ")");
+	private static double test(double x, double y, double z, int top) {
+		println("Testing (" + x + "," + y + ","+z+")");
 		int n = 0;
 
 		int a = 0;
@@ -76,11 +79,14 @@ public class ClassifierWeighted {
 			Text t = pText.getText();
 			PartyList pl1 = pt1.evaluate(t);
 			PartyList pl2 = pt2.evaluate(t.toPercent());
+			PartyList pl3 = pt3.evaluate(t.toTfidf());
 
 			pl1.multiply(x);
 			pl2.multiply(y);
+			pl3.multiply(z);
 
 			PartyList sum = pl1.addLists(pl2);
+			sum = sum.addLists(pl3);
 
 			// System.out.printf("%s\t(%s/%s = %s)\n", pText.getParty(),
 			// pl1.getBestParty(), pl2.getBestParty(),sum.getBestParty());

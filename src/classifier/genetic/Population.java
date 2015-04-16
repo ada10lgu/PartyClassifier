@@ -45,7 +45,9 @@ public class Population {
 			double child1a = dad.getA();
 			double child0b = mom.getB();
 			double child1b = dad.getB();
-
+			double child0c = mom.getC();
+			double child1c = dad.getC();
+			
 			if (r.nextBoolean()) {
 				child0a = dad.getA();
 				child1a = mom.getA();
@@ -54,9 +56,14 @@ public class Population {
 				child0b = dad.getB();
 				child1b = mom.getB();
 			}
+			if (r.nextBoolean()) {
+				child0c = dad.getB();
+				child1c = mom.getB();
+			}
+			
 
-			points[last] = new Point(child0a, child0b);
-			points[last - 1] = new Point(child1a, child1b);
+			points[last] = new Point(child0a, child0b,child0c);
+			points[last - 1] = new Point(child1a, child1b,child1c);
 
 			last -= 2;
 
@@ -73,6 +80,10 @@ public class Population {
 			if (r.nextDouble() < risk) {
 				points[i].mutateB();
 			}
+			if (r.nextDouble() < risk) {
+				points[i].mutateC();
+			}
+			
 		}
 	}
 

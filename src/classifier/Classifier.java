@@ -40,7 +40,7 @@ public class Classifier {
 		System.out.println("Loading data");
 		for (String party : parties) {
 			String postfix = m.getPostfix();
-			Text t = new Text(party + postfix);
+			Text t = new Text("data/text/"+party + m.getPostfix() + ".csv");
 			map.put(party, t);
 		}
 		System.out.println("All data loaded");
