@@ -132,7 +132,7 @@ public class Text {
 		}
 	}
 
-	private Double getDataSize() {
+	public Double getDataSize() {
 		Double size = 0.0;
 		for (String key : data.keySet()) {
 			Double val = data.get(key);
@@ -190,6 +190,10 @@ public class Text {
 	public boolean contains(String word) {
 		Double d = data.get(word);
 		return d != null;
+	}
+	
+	public HashMap<String, Double> getData(){
+		return data;
 	}
 	
 	@Override

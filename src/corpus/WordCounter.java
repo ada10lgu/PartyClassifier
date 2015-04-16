@@ -19,7 +19,7 @@ public class WordCounter {
 		System.out.println("Reading data");
 
 		HashMap<String, ArrayList<Text>> text = getAllPartyTexts();
-
+		//createBM25data(text);
 		int documents = 0;
 		for (String key : text.keySet()) {
 			documents += text.get(key).size();
@@ -82,7 +82,37 @@ public class WordCounter {
 		csv.save();
 
 	}
+	
+	private static void createBM25data(HashMap<String, ArrayList<Text>> text) throws IOException{
+		for(String partyKey : text.keySet()){
+			CSV csv = new CSV(new File("data/bm25/" + partyKey + ".csv"));
+			ArrayList<ArrayList<String>> bm25 = csv.getData();
+			bm25.clear();
+			Text partyText = new Text();
+			Integer documentCount = 0;
+			for(Text t : text.get(partyKey)){
+				partyText.addText(t);
+				documentCount++;
+			}
+			ArrayList<String> firstLine = new ArrayList<>();
+			firstLine.add("documentCount");
+			firstLine.add(documentCount.toString());
+			bm25.add(firstLine);
+			ArrayList<String> secondLine = new ArrayList<>();
+			secondLine.add("totalSize");
+			secondLine.add(partyText.getDataSize().toString());
+			bm25.add(secondLine);
+			for(String key: partyText.getData().keySet()){
+				ArrayList<String> row = new ArrayList<>();
+				row.add(key);
+				row.add(partyText.getData().get(key).toString());
+				bm25.add(row);
+			}
+			csv.save();
+		}
+	}
 
+	
 	private static Set<String> getAllWords(HashMap<String, ArrayList<Text>> text) {
 		Text all = new Text();
 
