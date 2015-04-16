@@ -132,14 +132,6 @@ public class Text {
 		}
 	}
 
-	private String getFilePath(String filename) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(BASEPATH);
-		sb.append(filename);
-		sb.append(".ser");
-		return sb.toString();
-	}
-
 	private Double getDataSize() {
 		Double size = 0.0;
 		for (String key : data.keySet()) {
