@@ -23,7 +23,6 @@ public class WordCounter {
 		int documents = 0;
 		for (String key : text.keySet()) {
 			documents += text.get(key).size();
-
 			System.out.println(key + ":\t" + text.get(key).size());
 		}
 

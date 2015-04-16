@@ -9,8 +9,11 @@ public class Point implements Comparable<Point> {
 
 	private static final double B_MIN = 150;
 	private static final double B_MAX = 300;
+	
+	private static final double C_MIN = 0;
+	private static final double C_MAX = 500;
 
-	private double a, b;
+	private double a, b,c;
 	private double ans;
 
 	public Point() {
@@ -20,12 +23,17 @@ public class Point implements Comparable<Point> {
 		a = r.nextDouble() * aRange + A_MIN;
 		double bRange = B_MAX - B_MIN;
 		b = r.nextDouble() * bRange + B_MIN;
-
+		double cRange = C_MAX - C_MIN;
+		c = r.nextDouble() * cRange + C_MIN;
+		
+		
+		
 	}
 
-	public Point(double a, double b) {
+	public Point(double a, double b,double c) {
 		this.a = a;
 		this.b = b;
+		this.c = c;
 	}
 
 	public double getA() {
@@ -34,6 +42,10 @@ public class Point implements Comparable<Point> {
 
 	public double getB() {
 		return b;
+	}
+
+	public double getC() {
+		return c;
 	}
 
 	public void setAns(double ans) {
@@ -63,7 +75,7 @@ public class Point implements Comparable<Point> {
 
 	@Override
 	public String toString() {
-		return "(" + a + "," + b + ") = " + ans;
+		return "(" + a + "," + b + ","+c+") = " + ans;
 	}
 
 	public void mutateA() {
@@ -81,4 +93,13 @@ public class Point implements Comparable<Point> {
 		b = r.nextDouble() * bRange + B_MIN;
 		System.out.println("I'm mutating b-fore I'm done!!!");
 	}
+	
+	public void mutateC() {
+		Random r = new Random();
+
+		double cRange = C_MAX - C_MIN;
+		c = r.nextDouble() * cRange + C_MIN;
+		System.out.println("C what i did there!!!");
+	}
+
 }
